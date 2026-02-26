@@ -1,0 +1,219 @@
+/* --- Global Styles --- */
+body {
+    min-height: 100vh;
+    margin: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: radial-gradient(circle, #ffe5ec 0%, #ffc2d1 100%);
+    font-family: "Bebas Neue", sans-serif;
+    overflow: hidden;
+    padding: 20px;
+    box-sizing: border-box;
+}
+
+.main-wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    max-width: 1200px;
+    gap: 20px;
+    position: relative;
+}
+
+/* --- Ripple Transition Effect --- */
+#ripple-bg {
+    position: fixed;
+    width: 10px;
+    height: 10px;
+    background: #ff85a1;
+    border-radius: 50%;
+    opacity: 0;
+    pointer-events: none;
+    z-index: 20;
+    transform: translate(-50%, -50%);
+}
+
+.ripple-active {
+    animation: rippleEffect 0.8s ease-out forwards;
+}
+
+@keyframes rippleEffect {
+    0% { width: 0; height: 0; opacity: 0.8; }
+    100% { width: 300vw; height: 300vw; opacity: 0; }
+}
+
+/* --- Gift Box Effects --- */
+#image1 {
+    width: clamp(150px, 50vw, 300px);
+    height: auto;
+    filter: drop-shadow(3px 3px 8px rgba(255, 71, 126, 0.3));
+    animation: shake 0.6s linear infinite;
+    cursor: pointer;
+    z-index: 2;
+}
+
+#image1:hover { animation: shake 0.1s linear infinite; }
+#image1.clicked { animation: explode 0.6s ease-out forwards; }
+
+/* --- Flower & Folder Stacking --- */
+#flower-wrapper {
+    display: none; 
+    flex-direction: column; 
+    align-items: center;
+    position: relative;
+    width: 100%;
+}
+
+#flower {
+    width: clamp(250px, 80vw, 450px);
+    height: auto;
+    filter: drop-shadow(0 0 15px white);
+    z-index: 10;
+    position: relative;
+    pointer-events: none;
+    transition: all 1s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+#letter-folder {
+    width: clamp(100px, 25vw, 180px);
+    height: auto;
+    position: absolute;
+    left: 50%;
+    top: 40%;
+    z-index: 5;
+    cursor: pointer;
+    padding: 60px; 
+    margin: -60px;
+    transform: translate(-50%, -50%);
+    transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+#letter-folder.focused {
+    z-index: 15;
+    top: 35%;
+    padding: 0; 
+    margin: 0;
+    transform: translate(-50%, -50%) scale(1.4) rotate(0deg) !important;
+}
+
+#actual-letter {
+    display: none;
+    width: clamp(280px, 90vw, 550px);
+    height: auto;
+    z-index: 25;
+    filter: drop-shadow(0 10px 20px rgba(255, 71, 126, 0.4));
+}
+
+.flower-aside {
+    transform: translateX(-25%) scale(0.7) rotate(-15deg);
+    opacity: 0.4;
+}
+
+/* --- Animations --- */
+.giving-effect {
+    display: flex !important; 
+    opacity: 0;
+    animation: giveFlower 1.2s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+}
+
+.giving-effect #letter-folder:not(.focused) {
+    animation: peek 12s ease-in-out infinite 1.5s;
+}
+
+@keyframes peek {
+    0%, 100% { transform: translate(-50%, -50%) rotate(0deg); }
+    15% { transform: translate(-20%, -90%) rotate(15deg); } 
+    30% { transform: translate(-140%, -70%) rotate(-20deg); } 
+    45% { transform: translate(-50%, -30%) rotate(5deg); } 
+    60% { transform: translate(-100%, -100%) rotate(-10deg); } 
+    75% { transform: translate(10%, -60%) rotate(20deg); } 
+    90% { transform: translate(-80%, -20%) rotate(-5deg); }
+}
+
+@keyframes shake {
+    0%, 100% { transform: translate(0,0); }
+    25% { transform: translate(-3px,3px); }
+    50% { transform: translate(3px,-3px); }
+    75% { transform: translate(-3px,-3px); }
+}
+
+@keyframes explode {
+    0% { transform: scale(1); opacity: 1; }
+    100% { transform: scale(3); opacity: 0; }
+}
+
+@keyframes giveFlower {
+    0% { transform: translateY(50px) scale(0.5); opacity: 0; }
+    100% { transform: translateY(0) scale(1); opacity: 1; }
+}
+
+/* --- UI Text and Buttons --- */
+.text_box { text-align: center; width: 100%; z-index: 2; }
+
+#instruction { 
+    font-size: clamp(22px, 6vw, 45px); 
+    opacity: 0.8; 
+    margin: 0; 
+    color: #ff7096; 
+}
+
+#flower-text, #catch-text {
+    margin-top: 10px; 
+    font-size: clamp(24px, 7vw, 60px);
+    color: #fb6f92;
+    text-shadow: 2px 2px 5px white;
+    z-index: 4;
+}
+
+#catch-text { display: none; color: #ff477e; }
+
+#question-container { display: none; flex-direction: column; align-items: center; }
+#sub-text { font-size: clamp(14px, 4vw, 22px); margin: 0; color: #ff85a1; }
+#main-question { 
+    font-size: clamp(32px, 10vw, 80px); 
+    margin: 0; 
+    color: white; 
+    text-shadow: 2px 2px 4px #ffb3c1; 
+}
+
+.button-container { 
+    display: none; 
+    gap: 15px; 
+    justify-content: center; 
+    width: 100%; 
+    flex-wrap: wrap; 
+}
+
+.action-btn { 
+    padding: 12px 30px; 
+    font-family: "Bebas Neue", sans-serif; 
+    font-size: clamp(18px, 5vw, 24px); 
+    border: none; 
+    border-radius: 15px; 
+    cursor: pointer; 
+    color: white; 
+    background: linear-gradient(145deg, #ff85a1, #fb6f92);
+    box-shadow: 0 4px 15px rgba(251, 111, 146, 0.4); 
+    transition: all 0.2s ease-out; 
+}
+
+.heart { 
+    position: fixed; 
+    top: -20px; 
+    font-size: 20px; 
+    color: #ff85a1; 
+    pointer-events: none; 
+    z-index: 1000; 
+    animation: fall linear forwards; 
+}
+
+@keyframes fall { to { transform: translateY(110vh) rotate(360deg); } }
+
+@media (min-width: 768px) {
+    .flower-aside {
+        transform: translateX(-140px) scale(0.6) rotate(-20deg);
+    }
+}
